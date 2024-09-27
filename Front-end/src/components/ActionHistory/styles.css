@@ -1,0 +1,10 @@
+.action-history {
+  padding: 16px;
+}
+
+.action-history h2 {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}

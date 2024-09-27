@@ -1,0 +1,13 @@
+.dashboard-chart {
+  padding: 16px;
+  margin-right: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.dashboard-chart__title {
+  margin-bottom: 16px;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+}

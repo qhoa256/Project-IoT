@@ -1,0 +1,445 @@
+openapi: 3.0.0
+info:
+  title: IoT Quang Hoa API Documentation
+  description: API for managing and controlling IoT devices like sensors and actions history.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8081
+    description: Local development server for IoT QuangHoa API
+
+tags:
+  - name: Status
+    description: API endpoints for retrieving the current status of sensors
+  - name: DataSensor
+    description: API endpoints for managing sensor data
+  - name: History
+    description: API endpoints for managing action history
+  - name: Control
+    description: API endpoints for controlling IoT devices
+
+paths:
+  /api/sensors/status:
+    get:
+      tags:
+        - Status
+      summary: Retrieve the most recent sensor data
+      description: Get the current status of devices such as Fan, Light, AC, and sensors including Temperature, Humidity, and Lux.
+      parameters:
+        - name: limit
+          in: query
+          description: Number of recent records to retrieve
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        200:
+          description: Successfully retrieved sensor status data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    fan:
+                      type: string
+                      description: Current status of the fan (on/off)
+                      example: on
+                    light:
+                      type: string
+                      description: Current status of the light (on/off)
+                      example: off
+                    ac:
+                      type: string
+                      description: Current status of the AC (on/off)
+                      example: on
+                    temperature:
+                      type: string
+                      description: Current temperature reading
+                      example: "25.5°C"
+                    humidity:
+                      type: string
+                      description: Current humidity reading
+                      example: "65%"
+                    lux:
+                      type: string
+                      description: Current light intensity in Lux
+                      example: "320 Lux"
+        500:
+          description: Server error when retrieving data
+
+  /api/sensors/datasensor:
+    post:
+      tags:
+        - DataSensor
+      summary: Insert new sensor data
+      description: Add new data for temperature, humidity, and light sensors to the database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                temperature:
+                  type: number
+                  description: Temperature in degrees Celsius
+                  example: 25.5
+                humidity:
+                  type: number
+                  description: Humidity percentage
+                  example: 65
+                lux:
+                  type: number
+                  description: Light intensity in Lux
+                  example: 320
+                date:
+                  type: string
+                  description: Date
+                  example: "2024-09-23 00:00:00"
+                fan:
+                  type: number
+                  description: Status of the fan (on/off)
+                  example: 0
+                light:
+                  type: number
+                  description: Status of the light (on/off)
+                  example: 0
+                ac:
+                  type: number
+                  description: Status of the AC (on/off)
+                  example: 0
+      responses:
+        200:
+          description: Successfully inserted new sensor data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Indicates if the data was successfully inserted
+                    example: true
+        500:
+          description: Error inserting data into the database
+
+  /api/sensors/search:
+    get:
+      tags:
+        - DataSensor
+      summary: Search sensor data
+      description: Search the sensor data with optional filters like temperature, humidity, lux, and date.
+      parameters:
+        - in: query
+          name: parameterFilter
+          schema:
+            type: string
+            enum: [Temperature, Humidity, Lux]
+          description: Filter by a specific parameter (Temperature, Humidity, or Lux)
+        - in: query
+          name: dateFilter
+          schema:
+            type: string
+            format: date
+          description: Filter data by a specific date (YYYY-MM-DD)
+        - in: query
+          name: searchTerm
+          schema:
+            type: string
+          description: Search term to match the parameter value
+          example: "25.5"
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+          description: Number of results to return per page
+          default: 10
+        - in: query
+          name: currentPage
+          schema:
+            type: integer
+          description: Current page number to retrieve
+          default: 1
+      responses:
+        200:
+          description: Successfully retrieved sensor data based on search criteria
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  records:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: Sensor data record ID
+                          example: 1
+                        temperature:
+                          type: string
+                          description: Temperature value in degrees Celsius
+                          example: "25.5°C"
+                        humidity:
+                          type: string
+                          description: Humidity percentage
+                          example: "65%"
+                        lux:
+                          type: string
+                          description: Light intensity in Lux
+                          example: "320 Lux"
+                        date:
+                          type: string
+                          description: Timestamp of the recorded data
+                          example: "2023-09-22 14:30:00"
+                  total:
+                    type: integer
+                    description: Total number of matching records
+                    example: 100
+        500:
+          description: Server error when searching for sensor data
+
+  /api/history/getdata:
+    get:
+      tags:
+        - History
+      summary: Retrieve action history data
+      description: Get all action history data from the database, such as device actions (e.g., turning on/off fans, lights, and AC).
+      responses:
+        200:
+          description: Successfully retrieved action history data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: Unique ID of the action history record
+                      example: 1
+                    device:
+                      type: string
+                      description: Name of the device (Fan, Light, AC)
+                      example: Fan
+                    action:
+                      type: string
+                      description: The action performed (on/off)
+                      example: on
+                    date:
+                      type: string
+                      description: Timestamp when the action occurred
+                      example: "2023-09-22 14:30:00"
+        500:
+          description: Server error when retrieving action history data
+
+  /api/sensors/sort:
+    get:
+      tags:
+        - DataSensor
+      summary: Sort data sensor information
+      description: |
+        This API allows you to sort the data sensor information by specific columns (temperature, humidity, lux, date) in ascending or descending order.
+      parameters:
+        - name: column
+          in: query
+          required: true
+          description: Column to sort by (temperature, humidity, lux, date)
+          type: string
+          enum: [temperature, humidity, lux, date]
+        - name: newSortOrder
+          in: query
+          required: true
+          description: Sort order (asc for ascending, desc for descending)
+          type: string
+          enum: [asc, desc]
+      responses:
+        200:
+          description: Sorted data sensor information
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: The sensor data ID
+                temperature:
+                  type: number
+                  format: float
+                  description: The temperature value (in Celsius)
+                humidity:
+                  type: number
+                  format: float
+                  description: The humidity percentage
+                lux:
+                  type: number
+                  format: float
+                  description: The lux value (light intensity)
+                date:
+                  type: string
+                  description: The date and time of the sensor data (YYYY-MM-DD hh:mm:ss)
+        400:
+          description: Bad request, missing or invalid parameters
+        500:
+          description: Server error during sorting operation
+
+  /api/history/search:
+    get:
+      tags:
+        - History
+      summary: Search action history data
+      description: Search the action history data with filters for devices, actions, and date.
+      parameters:
+        - in: query
+          name: deviceFilter
+          schema:
+            type: string
+            enum: [Đèn, Quạt, Điều hoà]
+          description: Filter by specific device (Đèn, Quạt, Điều hoà)
+        - in: query
+          name: dateFilter
+          schema:
+            type: string
+            format: date
+          description: Filter data by a specific date (YYYY-MM-DD)
+        - in: query
+          name: searchTerm
+          schema:
+            type: string
+          description: Search term for action or device
+          example: on
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+          description: Number of results per page
+          default: 10
+        - in: query
+          name: currentPage
+          schema:
+            type: integer
+          description: Current page number
+          default: 1
+      responses:
+        200:
+          description: Successfully retrieved action history based on search criteria
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  records:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: Unique ID of the history record
+                          example: 1
+                        device:
+                          type: string
+                          description: The device name (Fan, Light, AC)
+                          example: Fan
+                        action:
+                          type: string
+                          description: Action performed (on/off)
+                          example: on
+                        date:
+                          type: string
+                          description: Timestamp when the action occurred
+                          example: "2023-09-22 14:30:00"
+                  total:
+                    type: integer
+                    description: Total number of matching records
+                    example: 50
+        500:
+          description: Server error during the search
+
+  /api/history/sort:
+    get:
+      tags:
+        - History
+      summary: Sort action history data
+      description: |
+        This API allows you to sort the action history data by specific columns (device, action, date) in ascending or descending order.
+      parameters:
+        - name: column
+          in: query
+          required: true
+          description: Column to sort by (device, action, date, id)
+          type: string
+          enum: [device, action, date, id]
+        - name: newSortOrder
+          in: query
+          required: true
+          description: Sort order (asc for ascending, desc for descending)
+          type: string
+          enum: [asc, desc]
+      responses:
+        200:
+          description: Sorted action history data
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: The action history ID
+                device:
+                  type: string
+                  description: The device name (e.g., Điều hoà, Đèn, Quạt)
+                action:
+                  type: string
+                  description: The action performed (Bật, Tắt)
+                date:
+                  type: string
+                  description: The date and time of the action (YYYY-MM-DD hh:mm:ss)
+        400:
+          description: Bad request, missing or invalid parameters
+        500:
+          description: Server error during sorting operation
+
+  /api/devices/actiondata:
+    get:
+      tags:
+        - Control
+      summary: Send control commands to IoT devices
+      description: Control devices like lights, fans, or AC by sending on/off commands through MQTT.
+      parameters:
+        - in: query
+          name: device
+          schema:
+            type: string
+          required: true
+          description: The IoT device to control (e.g., light, fan, ac)
+        - in: query
+          name: action
+          schema:
+            type: string
+          required: true
+          description: The action to send to the device (on/off)
+      responses:
+        200:
+          description: Successfully sent control command to device
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  device:
+                    type: string
+                    description: The device that was controlled
+                    example: light
+                  action:
+                    type: string
+                    description: The action performed on the device
+                    example: on
+        500:
+          description: Error sending control command or timeout

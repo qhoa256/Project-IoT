@@ -1,0 +1,94 @@
+.dashboard-controls {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 16px;
+}
+
+.dashboard-controls__title {
+  text-align: center;
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.dashboard-devices {
+  width: 100%;
+}
+
+.dashboard-device__item {
+  font-size: 2.7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #dc2626;
+  color: #fff;
+  padding: 24px 0;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  width: 100%;
+  max-width: 60%;
+  margin: 0 auto 8px;
+  font-weight: 700;
+}
+
+.dashboard-device__item:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.dashboard-device__item span {
+  margin-left: 8px;
+  font-size: 1.6rem;
+}
+
+.dashboard-device__item.on {
+  background-color: #16a34a;
+}
+
+@keyframes oscilation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes live {
+  0% {
+    color: #f1c40f;
+  }
+  50% {
+    color: #ffd700;
+  }
+  100% {
+    color: #f1c40f;
+  }
+}
+.dashboard-controls__item svg {
+  font-size: 3rem;
+}
+.dashboard-device__item.on svg.fan,
+.dashboard-device__item svg.spinner {
+  animation: spin 1s infinite linear;
+}
+
+.dashboard-device__item.on svg.snow {
+  animation: oscilation 1s infinite linear;
+}
+
+.dashboard-device__item.on svg.light {
+  animation: live 1s infinite linear;
+}

@@ -1,0 +1,79 @@
+.data-sensor {
+  padding: 16px;
+}
+
+.data-sensor h2 {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.data-sensor__search {
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.data-sensor__search input,
+.data-sensor__search select {
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+  padding: 8px 16px;
+  border: 2px solid #888;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.data-sensor__search button {
+  min-width: 150px;
+  font-size: 1.6rem;
+  background-color: blue;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+}
+
+.data-sensor__table {
+  font-size: 1.6rem;
+  padding: 16px;
+}
+
+.data-sensor__pagination {
+  margin-top: 24px;
+  justify-content: center;
+}
+
+.table-filter {
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.table-filter label {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin: 16px 0 4px;
+}
+
+.table-filter input,
+.table-filter select {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 2px solid #1d4ed8;
+  width: calc(100% - 16px);
+  font-size: 1.6rem;
+}
+
+.table-filter button {
+  padding: 12px 48px;
+  background-color: #1d4ed8;
+  color: #fff;
+  transition: all 0.2s ease;
+  font-size: 1.6rem;
+  border-radius: 8px;
+}
+
+.table-filter button:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
