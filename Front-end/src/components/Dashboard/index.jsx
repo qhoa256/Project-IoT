@@ -96,48 +96,31 @@ export const Dashboard = () => {
   }, []);
 
   const getTempColor = (temperature) => {
-    // Kẹp giá trị nhiệt độ trong khoảng từ 0 đến 50
-    const clampedTemp = Math.max(0, Math.min(temperature, 50));
-  
-    // Xanh lá cây khi nhiệt độ thấp và đỏ khi nhiệt độ cao
-    const redComponent = Math.round((clampedTemp / 50) * 255);  // Tăng từ 0 đến 255
-    const greenComponent = Math.round(255 - (clampedTemp / 50) * 255);  // Giảm từ 255 đến 0
-  
-    return `rgb(${redComponent}, ${greenComponent}, 0)`;  // Xanh chuyển dần sang đỏ
+    if (temperature <= 10) return "#fca5a5";
+    else if (temperature <= 20) return "#f87171";
+    else if (temperature <= 30) return "#ef4444";
+    else if (temperature <= 40) return "#dc2626";
+    return "#b91c1c";
   };
 
   const getHumidityColor = (humidity) => {
-    // Kẹp giá trị độ ẩm trong khoảng từ 0 đến 100
-    const clampedHumi = Math.max(0, Math.min(humidity, 100));
-  
-    // Xanh dương nhạt (màu #ADD8E6) khi độ ẩm thấp và xanh dương đậm (màu #00008B) khi độ ẩm cao
-    const redComponent = Math.round(173 - (clampedHumi / 100) * 173); // Giảm từ 173 đến 0
-    const greenComponent = Math.round(216 - (clampedHumi / 100) * 216); // Giảm từ 216 đến 0
-    const blueComponent = Math.round(230 - (clampedHumi / 100) * (230 - 139)); // Tăng từ 230 đến 139 (xanh dương)
-  
-    return `rgb(${redComponent}, ${greenComponent}, ${blueComponent})`;  // Xanh nhạt đến xanh đậm
+    if (humidity <= 60) return "#93c5fd";
+    else if (humidity <= 70) return "#60a5fa";
+    else if (humidity <= 80) return "#3b82f6";
+    else if (humidity <= 90) return "#2563eb";
+    return "#1d4ed8";
   };
 
   const getLuxColor = (lux) => {
-    // Kẹp giá trị ánh sáng trong khoảng từ 0 đến 400
-    const clampedLux = Math.min(Math.max(lux, 0), 400);
-  
-    // Màu cơ bản ở 0 lux (xám - #808080)
-    const baseRed = 128;
-    const baseGreen = 128;
-    const baseBlue = 128;
-  
-    // Màu mục tiêu ở 400 lux (vàng - #FACC15)
-    const targetRed = 250;
-    const targetGreen = 204;
-    const targetBlue = 21;
-  
-    // Nội suy màu giữa màu cơ bản và màu mục tiêu
-    const red = Math.floor(baseRed + (targetRed - baseRed) * (clampedLux / 400));
-    const green = Math.floor(baseGreen + (targetGreen - baseGreen) * (clampedLux / 400));
-    const blue = Math.floor(baseBlue + (targetBlue - baseBlue) * (clampedLux / 400));
-  
-    return `rgb(${red}, ${green}, ${blue})`;  // Xám chuyển dần sang vàng
+    if (lux <= 50) return "#4b5563";
+    else if (lux <= 100) return "#6b7280";
+    else if (lux <= 150) return "#9ca3af";
+    else if (lux <= 200) return "#d1d5db";
+    else if (lux <= 250) return "#fef9c3";
+    else if (lux <= 300) return "#fef08a";
+    else if(lux <= 350) return "#fde047";
+    else if(lux <= 400) return "#facc15";
+    return "#eab308";
   };
   
   return (
