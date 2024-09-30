@@ -59,11 +59,11 @@ export const ProfileInfo = () => {
                 </p>
                 <p className="profile-card__sub-info gap-3">
                   <FontAwesomeIcon icon={faBuilding} />
-                  <a href="#">Report</a>
+                  <a href="#" target="_blank">Report</a>
                 </p>
                 <p className="profile-card__sub-info gap-3">
                   <FontAwesomeIcon icon={faLocationDot} />
-                  <a href="http://localhost:8081/apidocs/#">API Docs</a>
+                  <a href="http://localhost:8081/apidocs/#" target="_blank">API Docs</a>
                 </p>
                 <button className="profile-card__btn">
                   <a href="https://github.com/qhoa256" target="_blank">
