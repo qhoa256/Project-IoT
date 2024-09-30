@@ -5,6 +5,8 @@ import {
   faBook,
   faBuilding,
   faLocationDot,
+  faAddressBook,
+  faFileCode
 } from "@fortawesome/free-solid-svg-icons";
 
 export const ProfileInfo = () => {
@@ -58,11 +60,11 @@ export const ProfileInfo = () => {
                   <span>{profileData[0].location}</span>
                 </p>
                 <p className="profile-card__sub-info gap-3">
-                  <FontAwesomeIcon icon={faBuilding} />
+                  <FontAwesomeIcon icon={faAddressBook} />
                   <a href="#" target="_blank">Report</a>
                 </p>
                 <p className="profile-card__sub-info gap-3">
-                  <FontAwesomeIcon icon={faLocationDot} />
+                  <FontAwesomeIcon icon={faFileCode} />
                   <a href="http://localhost:8081/apidocs/#" target="_blank">API Docs</a>
                 </p>
                 <button className="profile-card__btn">
