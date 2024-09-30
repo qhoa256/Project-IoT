@@ -4,7 +4,6 @@ import "./styles.css";
 import {
   faBook,
   faBuilding,
-  faHeart,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -50,13 +49,21 @@ export const ProfileInfo = () => {
                   {profileData.length > 0 && profileData[0].name}
                 </h3>
                 <p className="profile-card__bio">{profileData[0].bio}</p>
-                <p className="profile-card__company gap-3">
+                <p className="profile-card__sub-info gap-3">
                   <FontAwesomeIcon icon={faBuilding} />
                   <span>{profileData[0].company}</span>
                 </p>
-                <p className="profile-card__location gap-3">
+                <p className="profile-card__sub-info gap-3">
                   <FontAwesomeIcon icon={faLocationDot} />
                   <span>{profileData[0].location}</span>
+                </p>
+                <p className="profile-card__sub-info gap-3">
+                  <FontAwesomeIcon icon={faBuilding} />
+                  <a href="#">Report</a>
+                </p>
+                <p className="profile-card__sub-info gap-3">
+                  <FontAwesomeIcon icon={faLocationDot} />
+                  <a href="http://localhost:8081/apidocs/#">API Docs</a>
                 </p>
                 <button className="profile-card__btn">
                   <a href="https://github.com/qhoa256" target="_blank">
@@ -72,11 +79,13 @@ export const ProfileInfo = () => {
           <div className="grid grid-cols-3 gap-4">
             {profileData[1] &&
               profileData[1].map((repo, index) => {
+                const repoName = repo.name;
                 return (
                   <a
                     href={repo.html_url}
                     target="_blank"
-                    className="profile-repo__item"
+                    className={`profile-repo__item ${repo.name ==
+                      "Project-IoT" && "highlight"}`}
                     key={index}
                   >
                     <h4 className="flex items-center gap-x-2 text-blue-700">

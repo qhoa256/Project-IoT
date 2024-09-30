@@ -56,13 +56,16 @@
   font-style: italic;
 }
 
-.profile-card__company,
-.profile-card__location {
+.profile-card__sub-info {
   margin: 16px 0 0;
   font-size: 1.6rem;
   line-height: 1.2;
   align-items: center;
   display: flex;
+}
+
+.profile-card__sub-info a:hover {
+  color: #1d4ed8;
 }
 
 .profile-card__btn {
@@ -96,6 +99,23 @@
   transition: all 0.2s ease;
 }
 
+@keyframes blink {
+  0% {
+    border-color: orange;
+  }
+  50% {
+    border-color: #ccc;
+  }
+  100% {
+    border-color: orange;
+  }
+}
+
+.profile-repo__item.highlight {
+  animation: blink 2s ease infinite;
+  border-width: 4px;
+}
+
 .profile-repo__item:hover {
   transform: scale(1.05);
 }
@@ -104,6 +124,10 @@
   font-weight: 700;
   font-size: 1.6rem;
   margin-bottom: 8px;
+}
+
+.profile-repo__item.highlight h4 {
+  color: orange;
 }
 
 .profile-repo__item p {
